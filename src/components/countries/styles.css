@@ -3,6 +3,11 @@
     padding: 6px;
 }
 
+.content-country:hover {
+    background-color: var(--color-hover);
+    cursor: pointer;
+  }
+
 .country-flag .country-name {
     align-items: center;
     display: flex;
