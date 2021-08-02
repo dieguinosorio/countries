@@ -1,0 +1,19 @@
+.content-country {
+    display: flex;
+    padding: 6px;
+}
+
+.country-flag .country-name {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.country-flag {
+    width: 10%;
+    margin-right: 13px;
+}
+
+.country-flag img {
+    width: 100%;
+}

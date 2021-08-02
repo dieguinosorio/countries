@@ -1,36 +1,63 @@
 <template>
-    <div class="header">
-        <h1>prueba</h1>
-    </div>
+    <div class="content-country" v-for="(country,index) in countries" :key="index">
+        <div class="country-flag">
+            <div><img :src="country['flag']" :alt="country['name']"></div>
+        </div>
+        <div class="country-name">
+            <span v-text="country['name']"></span>
+        </div>
+    </div>   
 </template>
 <script>
-import axios from 'axios'; 
+import './styles.css';
+import ServiceApp from '../../services/ServiceApp';
+const restServiceApp = new ServiceApp();
 export default {
+    props: ['filter','continent','data'],
     data(){
         return{
-            paises:[],
-            continents:[],
+            countries:restServiceApp.getCountriesByContinent(this.continent,this.data),
+            backCountries:[]
+        }
+    },
+
+    watch:{
+        filter(){
+            console.log("Desde countryes",this.filter)
+            this.filterList(this.filter);
+        },
+        continent(){
+            this.countries = restServiceApp.getCountriesByContinent(this.continent,this.data);
         }
     },
 
     methods:{
-        getPaises(){
-            let me = this;
-            let url ="https://restcountries.eu/rest/v2/all";
-            axios.get(url).then(response=>{
-                response.data.map(function(e){
-                    me.paises.push(e);
-                    if(me.continents.indexOf(e.region) < 0){
-                        me.continents.push(e.region);
-                        console.log(e.region)
-                    }
-                })
-            })
+
+        filterList(search){
+            let filText = search.text;
+            let filSelect = search.select;
+            if(filText || filSelect){
+                let searchCountry = this.countries?.filter(country => country.name.toLowerCase().includes(filText.toLowerCase()) || country.name.toLowerCase() === filText.toLowerCase());
+                if(searchCountry && searchCountry.length > 0){
+                    this.backCountries = this.countries;
+                    this.countries =  searchCountry;
+                }
+            }
+            else{
+                this.countries = restServiceApp.getCountriesByContinent(this.continent,this.data);
+            }
+
         },
+        
+        filterBycountry(countries,filter){
+            return countries.filter(country=>{
+                return country.name.toLowerCase().includes(filter.toLowerCase())
+            });
+        }
     },
 
     mounted(){
-        this.getPaises();
+
     }
 }
 </script>
