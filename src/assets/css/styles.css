@@ -132,7 +132,7 @@ select {
     padding-top: 2%;
 }
 
-@media (max-width: 770px) {
+@media (max-width: 820px) {
     .head-search {
         height: 35px;
         width: 80%;

@@ -1,10 +1,12 @@
 <template>
 <div class="content-continents">
     <div class="container-continent" v-for="(continent,index) in continents" :key="index">
-        <h3 class="name-continent" v-text="continent?.name"></h3>
-        <countries :continent="continent.name" :data="data" :filter="filter" :groupcodes="GroupCodeCountry"></countries>
+        <countries :continent="continent.name" :data="data" :nameContinent="continent.name" :filter="filter" :groupcodes="GroupCodeCountry"></countries>
     </div>   
-</div>         
+</div> 
+<div class="content-not-found" style="display:none;">
+    <p>No results found</p>
+</div>       
 </template>
 <script>
 import axios from 'axios';
@@ -14,7 +16,6 @@ const restServiceApp = new ServiceApp();
 import countries from '../../components/countries/index.vue'
 
 export default {
-    restServiceApp,
     props: ['filter'],
     components: {
         countries
@@ -26,6 +27,7 @@ export default {
             data : [],
             dataBack: [],
             GroupCodeCountry:[],
+            restServiceApp : restServiceApp ,
         }
     },
 
@@ -55,24 +57,13 @@ export default {
             let me = this;
             let filText = search.text;
             let filSelect = search.select;
-            
             if(filText || filSelect){
                 let searchCont = [];
                 if(filSelect && filSelect == 'Favorites'){
-                    me
+                    var newContinents = [];
                     if(restServiceApp.areThereAnyFavorite()){
-                        let conts = me.continents;
-                        let FavoritesCountries = Object.entries(restServiceApp.getFavoritesCountries());
-                        console.log(FavoritesCountries)
-                        var newContinents = [];
-                        conts.map(function(c){
-                            FavoritesCountries.map(function(co){
-                                if(co.indexOf(c.name)>=0){
-                                    newContinents.push(c)
-                                }
-                            })
-                        })
-                        newContinents.length > 0 ? searchCont = newContinents: '';
+                        newContinents = restServiceApp.getContinentsFilterFavorite(me.backContinents)
+                        searchCont = newContinents.length >0 ? newContinents:[];
                     }
                 }
                 else{

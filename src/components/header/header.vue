@@ -9,9 +9,9 @@
       </div>
       <form>
         <div class="head-search">
-          <input type="text" v-model="filterText" name="search" @keyup.enter="changedFilter()" placeholder="Search country" >
+          <input type="text" v-model="filterText" name="search"  placeholder="Search country" >
           <div class="head-select">
-            <select name="filter" v-model="filterSelect" @change.prevent="changedFilter()">
+            <select name="filter" v-model="filterSelect" >
               <option value="">Show All</option>
               <option value="Favorites">Favorites</option>
               <option v-for="(continent,index) in continents" :key="index" v-text="continent.name" :value="continent.name"></option>
@@ -40,7 +40,7 @@ export default {
     },
 
     filterSelect:function(){
-      //this.changedFilter();
+      this.changedFilter();
     }
   },
 

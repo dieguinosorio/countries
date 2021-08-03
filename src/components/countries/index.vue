@@ -1,13 +1,15 @@
-<template>
+<template v-if="countries.length > 0 ">
+    <h3 class="name-continent" v-if="countries.length > 0 "  v-text="nameContinent"></h3>
     <div class="content-country" v-for="(country,index) in countries" :key="index" @click.prevent="selectCountry(country)">
         <div class="country-flag">
             <div><img :src="country['flag']" :alt="country['name']"></div>
         </div>
         <div class="country-name">
             <span v-text="country['name']"></span>
+            <span class="list-icon-favorite" v-if="fillFavorites"><img src='./img/favorite.png' alt="favorite" /> </span>
         </div>
     </div> 
-    <modalfavorite v-if="countrySelect" :countrySelect="countrySelect" :groupcode="groupcodes" v-on:closemodal="closeModal()"></modalfavorite>
+<modalfavorite v-if="countrySelect" :countrySelect="countrySelect" :groupcode="groupcodes" v-on:closemodal="closeModal()"></modalfavorite>
 </template>
 <script>
 import './styles.css';
@@ -18,12 +20,14 @@ export default {
     components: {
         modalfavorite
     },
-    props: ['filter','continent','data','groupcodes'],
+    props: ['filter','continent','data','groupcodes','nameContinent'],
     data(){
         return{
             countries:restServiceApp.getCountriesByContinent(this.continent,this.data),
             backCountries:[],
             countrySelect:null,
+            serviceApp:restServiceApp,
+            fillFavorites:false,
         }
     },
 
@@ -42,30 +46,21 @@ export default {
             let filSelect = search.select;
             let searchCountry = [];
             let me = this;
+            this.fillFavorites = filSelect =='Favorites' ? true :false
+            console.log(this.fillFavorites);
             if(filSelect && filSelect == 'Favorites'){
-                
-               
                 if(restServiceApp.areThereAnyFavorite()){
                     if(restServiceApp.areThereAnyFavorite()){
-                        let conts = me.countries;
-                        let FavoritesCountries = Object.entries(restServiceApp.getCountriesFavorite());
-                        //console.log(FavoritesCountries)
-                        var newCountries = [];
-                        conts.map(function(c){
-                            c
-                            FavoritesCountries.map(function(co){
-                                let dat = co[1]
-                                if(dat.name.indexOf(c.name)>=0){
-                                    newCountries.push(c)
-                                }
-                            })
-                        })
-                        newCountries.length > 0 ? searchCountry = newCountries: '';
+                        let favoritCountries = restServiceApp.getCountriesFilterFavorite(me.data);
+                        favoritCountries.length > 0 ? searchCountry = favoritCountries: '';
                     }
-
+                    if(filText){
+                        searchCountry = searchCountry?.filter(country => country.name.toLowerCase().includes(filText.toLowerCase()) || country.name.toLowerCase() === filText.toLowerCase());
+                    }
+                    
                     if(searchCountry && searchCountry.length > 0){
                         me.backCountries = me.countries;
-                        me.countries =  searchCountry;
+                        me.countries = restServiceApp.getCountriesByContinent(this.continent,searchCountry);
                     }
                 }
             }   
@@ -95,6 +90,7 @@ export default {
 
         closeModal(){
             this.countrySelect = null;
+            this.filterList(this.filter);
         }
     },
 

@@ -6,7 +6,7 @@
 .content-country:hover {
     background-color: var(--color-hover);
     cursor: pointer;
-  }
+}
 
 .country-flag .country-name {
     align-items: center;
@@ -21,4 +21,9 @@
 
 .country-flag img {
     width: 100%;
+}
+
+.list-icon-favorite {
+    padding-left: 13px;
+    width: 38px;
 }

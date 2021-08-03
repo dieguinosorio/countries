@@ -27,7 +27,6 @@ export default {
 
     getFilters(val){
       this.filters = val;
-      console.log(this.filters)
     },
 
     getContinents(val){
