@@ -1,18 +1,18 @@
 <template>
     <Header  v-on:filter="getFilters" :continents="continentsGroup"></Header>
   <div>
-    <continents :filter="filters" v-on:continents="getContinents"></continents>
+    <contentcontinents :filter="filters" v-on:continents="getContinents" ></contentcontinents>
   </div>
 </template>
 <script>
 import  Header from './components/header/header.vue'
-import continents from './components/continents/index.vue'
+import contentcontinents from './components/contentcontinents/index.vue'
 import './assets/css/styles.css';
 import './assets/css/index.css';
 export default {
   name: 'App',
   components: {
-    continents,
+    contentcontinents,
     Header
   },
   data(){
@@ -33,10 +33,5 @@ export default {
       this.continentsGroup = val;
     }
   },
-
-  mounted(){
-
-  }
-
 }
 </script>

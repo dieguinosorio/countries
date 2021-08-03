@@ -1,28 +1,25 @@
 <template>
 <div class="content-continents">
     <div class="container-continent" v-for="(continent,index) in continents" :key="index">
-        <countries :continent="continent.name" :data="data" :nameContinent="continent.name" :filter="filter" :groupcodes="GroupCodeCountry"></countries>
+        <h3 class="name-continent" v-text="continent.name"></h3>
+        <countries :continent="continent.name" :data="dataFilter" :groupcodes="groupcodes" v-on:deleteFavorite="deleteFavorite" :filterFavorites="filterFavorites"></countries>
     </div>   
 </div> 
-<div class="content-not-found" style="display:none;">
-    <p>No results found</p>
-</div>       
 </template>
 <script>
-import axios from 'axios';
 import './styles.css';
 import ServiceApp from '../../services/ServiceApp';
 const restServiceApp = new ServiceApp();
 import countries from '../../components/countries/index.vue'
 
 export default {
-    props: ['filter'],
+    props: ['filter','continents','dataFilter','groupcodes','filterFavorites'],
+    emits:['deletedFavorit'],
     components: {
         countries
     },
     data(){
         return{
-            continents:[],
             backContinents:[],
             data : [],
             dataBack: [],
@@ -31,77 +28,11 @@ export default {
         }
     },
 
-    watch:{
-        filter(){
-            this.filterContinentByCountry(this.filter);
-        },
-    },
-
+    
     methods: {
-        getDataEndPoint() {
-            let me = this;
-            let url = "https://restcountries.eu/rest/v2/all";
-            axios.get(url).then(response => {
-                me.data = response.data;
-                me.dataBack = response.data;
-                me.continents = restServiceApp.getContinents(me.data);
-                me.backContinents =me.continents;
-                me.GroupCodeCountry =  restServiceApp.getCountriesByCode(me.data);
-                me.$emit('continents',me.continents);
-            }).catch(error=>{
-                console.log(error)
-            })
-        },
-
-        filterContinentByCountry(search){
-            let me = this;
-            let filText = search.text;
-            let filSelect = search.select;
-            if(filText || filSelect){
-                let searchCont = [];
-                if(filSelect && filSelect == 'Favorites'){
-                    var newContinents = [];
-                    if(restServiceApp.areThereAnyFavorite()){
-                        newContinents = restServiceApp.getContinentsFilterFavorite(me.backContinents)
-                        searchCont = newContinents.length >0 ? newContinents:[];
-                    }
-                }
-                else{
-                    searchCont = this.backContinents.filter(continent =>{
-                        if( filText && !filSelect){
-                            return continent.name.toLowerCase().includes(filText.toLowerCase());
-                        }
-                        else if(filSelect && filText){
-                            return continent.name.toLowerCase().includes(filText.toLowerCase()) && continent.name.toLowerCase().includes(filSelect.toLowerCase())
-                        }
-                        else if(filSelect && !filText){
-                            return continent.name.toLowerCase().includes(filSelect.toLowerCase())
-                        }
-                        else{
-                            return false;
-                        }
-                    })
-                }
-
-                if(searchCont && searchCont.length > 0){
-                    this.continents =  searchCont;
-                }
-                else{
-                    let filterData = this.data?.filter(country => country.name.toLowerCase().includes(filText.toLowerCase()));
-                    let hydratedCont = restServiceApp.getContinents(filterData);
-                    if(hydratedCont.length != this.continents.length ){
-                        this.continents = hydratedCont;
-                    }
-                }
-            }
-            else{
-                this.continents = this.backContinents;
-            }
-        },
-    },
-
-    mounted() {
-        this.getDataEndPoint();
+        deleteFavorite(){
+            this.$emit('deletedFavorit');
+        }
     },
 }
 </script>

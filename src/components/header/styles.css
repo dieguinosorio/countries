@@ -1,0 +1,51 @@
+html {
+    background-color: var(--color-background);
+    min-height: 100vh;
+    height: 100%;
+    padding-bottom: 70px;
+}
+
+.header {
+    position: relative;
+    display: flex;
+}
+
+.head-description {
+    align-items: center;
+    display: flex;
+    justify-content: normal;
+    padding-left: 6%;
+    width: 50%;
+}
+
+.head-description-info {
+    color: var(--color-blue-main);
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 5vw;
+}
+
+.head-description-secundary {
+    color: var(--color-blue-secundary);
+}
+
+.head-image {
+    width: 50%;
+}
+
+.head-image img {
+    width: 100%;
+}
+
+.head-search {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid var(--color-gray);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    left: 6%;
+    top: 74%;
+    position: absolute;
+    width: 58%;
+    height: 70px;
+}

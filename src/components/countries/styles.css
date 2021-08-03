@@ -8,7 +8,7 @@
     cursor: pointer;
 }
 
-.country-flag .country-name {
+.country-flag, .country-name {
     align-items: center;
     display: flex;
     justify-content: center;

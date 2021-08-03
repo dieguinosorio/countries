@@ -35,7 +35,7 @@ import ServiceApp from '../../services/ServiceApp';
 const restServiceApp = new ServiceApp();
 export default {
   props:['countrySelect','groupcode'],
-  
+  emits:['closemodal','delfavorite'],
   data(){
       return{
         country:this.countrySelect,
@@ -57,6 +57,7 @@ export default {
 
     validFavorite(){
       this.isFavorite= restServiceApp.isFavorite(this.countrySelect);
+      this.$emit('delfavorite') 
     },
 
 
@@ -74,7 +75,7 @@ export default {
     }
   },
   mounted(){
-    //console.log(this.groupcode)
+    
   }
 }
 </script>

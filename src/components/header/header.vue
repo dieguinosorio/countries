@@ -24,8 +24,10 @@
     </header>
 </template>
 <script>
+import './styles.css';
 export default {
   props: ['continents'],
+  emits:['filter'],
   data() {
     return {
       filterText:'',

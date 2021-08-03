@@ -1,9 +1,5 @@
 export default class ServiceApp {
 
-    testData(dat) {
-        console.log(dat)
-    }
-
     getContinents(data) {
         let continents = [];
         if (data) {
@@ -118,44 +114,5 @@ export default class ServiceApp {
         })
         return newCountries;
     }
-
-
-    /* addFavoriteCountry() {
-        const currentCountries = this.getFavoritesCountries()
-        if (!currentCountries){
-            return localStorage.setItem('favoritesCountries', JSON.stringify({ ...currentCountries, [country.region]: [country] }))
-        }
-        const updatedRegion = [...currentCountries[country.region], country]
-        return localStorage.setItem('favoritesCountries', JSON.stringify({ ...currentCountries, [country.region]: updatedRegion }))
-    }
-    
-    /*deleteFavoriteCountry(country){
-        const currentCountries = getFavoritesCountries()
-        if (!currentCountries) return false
-        const newCountriesRegion = currentCountries[country.region].filter(co => co.name !== country.name)
-        localStorage.setItem('favoritesCountries', JSON.stringify({ ...currentCountries, [country.region]: newCountriesRegion }))
-    }
-    
-    isFavorite(country){
-        const currentCountries = getFavoritesCountries()
-        if (!currentCountries) return false
-        if (!currentCountries[country.region]) return false
-        return currentCountries[country.region].some(co => co.name === country.name)
-    }
-    
-    hasCountryFavorites(region){
-        const currentCountries = getFavoritesCountries()
-        if (!currentCountries) return false
-        if (!currentCountries[region]) return false
-        return currentCountries[region].length
-    }
-    
-    areThereAnyFavorite(){
-        const currentCountries = getFavoritesCountries()
-        if (!currentCountries) return false // to validate when we have not yet added favorites.
-        const objectKeys = Object.keys(currentCountries)
-        return objectKeys.some(region => currentCountries[region].length > 0)
-    }*/
-
 
 }
