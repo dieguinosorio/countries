@@ -38,7 +38,7 @@ export default {
     methods:{
         getDataEndPoint() {
             let me = this;
-            let url = "https://restcountries.eu/rest/v2/all";
+            let url = "https://restcountries.com/v2/all";
             axios.get(url).then(response => {
                 me.data = response.data;
                 me.dataBack = response.data;
