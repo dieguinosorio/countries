@@ -67,7 +67,7 @@ export default {
         let filter = (me.groupcode.filter(cod => cod.code.toLowerCase() === e.toLowerCase()));
         return filter[0].name;
       });
-      return filterBorders.join(", ");
+      return filterBorders ?  filterBorders.join(", ") : '';
     },
 
     closeModal(){
